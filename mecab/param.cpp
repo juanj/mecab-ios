@@ -161,7 +161,13 @@ bool Param::open(int argc, char **argv, const Option *opts) {
             set<std::string>(opts[i].name, &argv[ind][2]);
           } else {
             if (argc == (ind+1)) GOTO_ERROR(1);
-            set<std::string>(opts[i].name, argv[++ind]);
+            if (argv[ind][1] == 'd') {
+              std::string space = " ";
+              std::string fullpath = argv[++ind] + space + argv[ind + 1];
+              set<std::string>(opts[i].name, fullpath);
+            } else {
+              set<std::string>(opts[i].name, argv[++ind]);
+            }
           }
         } else {
           if (argv[ind][2] != '\0') GOTO_ERROR(2);
